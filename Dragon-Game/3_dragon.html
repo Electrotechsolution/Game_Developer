@@ -1,0 +1,113 @@
+<html>
+
+<body>
+    <canvas style="margin-top:30px;display: block ;padding-left: 0; padding-right: 0; margin-left: auto; margin-right: auto;"  id="mycanvas"  width="700" height="320"> </canvas>
+    <br> <marquee>Mission&#127894;&#65039;Helix</marquee>
+	<marquee><i>Sukhdev Singh</i></marquee>
+    <p><b>#LearnInspireGrow #DragonJumpGame.</b></p>
+    <script type="text/javascript">
+        //////////  STEP-3  /////////
+        ///////// Fix clouds height  /////////
+        /////////Detect Spacebar Press////////
+        
+        var canvas = document.getElementById("mycanvas");
+        var ctx = canvas.getContext("2d");
+        var width = 700;
+        var height = 320;
+//        ctx.fillStyle = "#aaaaaa";
+//        ctx.fillRect(0,0,700,320);
+        
+        var counter=0;
+        function drawObject(object){
+            var index= counter%object.images.length;//5
+            //Access image from array of images
+			var currentImage = object.images[index];
+			//Draw of canvas
+            ctx.drawImage(currentImage, object.x-(object.width/2),object.y-(object.height/2),object.width,object.height);
+        }
+        
+        var dragonImages = [];
+        dragonImageUrls = ["https://i.imgur.com/dyPMw7K.png","https://i.imgur.com/WwUcIUd.png","https://i.imgur.com/cO9ZZMC.png","https://i.imgur.com/6xIWhPr.png","https://i.imgur.com/AJUkc9s.png"] ;
+        
+        for (var i=0; i<dragonImageUrls.length;i++){
+            var dragonImage = new Image();
+            dragonImage.src = dragonImageUrls[i];
+            // add 
+            dragonImages.push(dragonImage);
+        }
+        
+        var dragon = {};
+        dragon.images = dragonImages;
+        dragon.width = 50;
+        dragon.height = 50;
+        dragon.x = 100;
+        dragon.y = 280;
+        dragon.SpeedY = 0;
+        
+        var clouds = [];
+		var cloudImage = new Image();
+		cloudImage.src = "https://i.imgur.com/H84RIEb.png";
+        
+        function getCloud(){
+			var cloud = {};
+			cloud.images = [cloudImage] ;
+			cloud.width = 50;
+			cloud.height = 50;
+			cloud.x=width;
+			cloud.y=30+Math.random()*75;
+			cloud.isActive = true;
+			cloud.speedX = -4 -( Math.random()*4);
+			cloud.speedY = 0;
+            
+  			cloud.move = function(){
+				this.x = this.x + this.speedX;
+				if(this.x < -100 ){
+					this.isActive = false;
+				}
+			}
+			return cloud;	          
+        }
+        
+        function update(){
+            counter++;
+            if (counter%30 ==0){
+				// Create new cloud and store it in array named clouds
+				var cloud = getCloud();
+				clouds.push(cloud);    
+            }
+            
+			//Clear all backgroud to white
+			ctx.fillStyle = "#ffffff";
+			ctx.fillRect(0, 0, width, height);
+
+			drawObject(dragon);
+		
+			var cloudsFinal = [];
+			for(var i = 0; i < clouds.length ; i++){
+				var cloud = clouds[i];
+
+				cloud.move();
+				drawObject(cloud);
+
+				if( cloud.isActive == true){
+					cloudsFinal.push(cloud);
+				}
+			}    
+            clouds = cloudsFinal;
+        }
+
+//        STEP-3 code from here!
+        document.addEventListener("keydown", function(event) {
+			if(event.keyCode == 32){
+				console.log("Presses Spacebar");
+			}
+		});
+    
+        //to repeat function, in mili secs time
+        setInterval(update,50);
+    
+    
+    
+    </script>
+</body>
+</html>

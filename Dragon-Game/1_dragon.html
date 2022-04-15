@@ -1,0 +1,63 @@
+<html>
+    <head style="text-align:center"> Dragon-Game </head>
+<body>
+    <canvas width="700" height="320" style="margin-top:30px; display: block; margin-right: auto;padding-left: 0; padding-right: 0 " id="mycanvas"> </canvas>
+    
+    <marquee>Mission&#127894;&#65039;Helix</marquee>
+    <marquee><i>Sukhdev Singh</i></marquee>
+    <script>
+        //////////  STEP-1  /////////
+        ////////// fix size for screen and add dragon ////////
+        
+        var canvas = document.getElementById("mycanvas");
+        var ctx = canvas.getContext("2d");
+//        ctx.fillStyle = "#000000";
+//        ctx.fillRect(0,0,700,320);
+        var width = 700;
+        var height = 320;
+//        var counter=0;
+   
+        function drawObject(object){
+            var index= counter%object.images.length;//5
+            //Access image from array of images
+			var currentImage = object.images[index];
+			//Draw of canvas
+            ctx.drawImage(currentImage, object.x-(object.width/2),object.y-(object.height/2),object.width,object.height);
+        }
+        
+        
+        var dragonImages = [];
+        var dragonImageUrls = ["https://i.imgur.com/dyPMw7K.png", "https://i.imgur.com/WwUcIUd.png", "https://i.imgur.com/cO9ZZMC.png", "https://i.imgur.com/6xIWhPr.png", "https://i.imgur.com/AJUkc9s.png"] ;
+        
+        for (var i=0; i<dragonImageUrls.length; i++){
+            var dragonImage = new Image();
+            dragonImage.src = dragonImageUrls[i];
+            dragonImages.push(dragonImage);
+        }
+        
+        var dragon = {};
+        dragon.images = dragonImages;
+        dragon.width = 50;
+        dragon.height = 50;
+        dragon.x = 100;
+        dragon.y = 280;
+        dragon.SpeedY = 0;
+        
+        var counter=0;
+        function update(){
+            counter ++;
+            //Clear all backgroud to black
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0,0,520,520); 
+            drawObject(dragon);
+        }
+        
+    
+        //to repeat function, in mili secs time
+        setInterval(update,50);
+    
+    
+    
+    </script>
+</body>
+</html>
